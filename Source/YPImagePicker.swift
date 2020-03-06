@@ -44,7 +44,7 @@ open class YPImagePicker: UINavigationController {
     /// Get a YPImagePicker with the specified configuration.
     public required init(configuration: YPImagePickerConfiguration) {
         YPImagePickerConfiguration.shared = configuration
-        picker = YPPickerVC()
+        picker = YPPickerVC(cropType: configuration.showsCrop)
         super.init(nibName: nil, bundle: nil)
         picker.imagePickerDelegate = self
     }
@@ -101,15 +101,25 @@ override open func viewDidLoad() {
                 }
                 
                 func showCropVC(photo: YPMediaPhoto, completion: @escaping (_ aphoto: YPMediaPhoto) -> Void) {
-                    if case let YPCropType.rectangle(ratio) = YPConfig.showsCrop {
-                        let cropVC = YPCropVC(image: photo.image, ratio: ratio)
+                    switch YPConfig.showsCrop {
+                    case .none:
+                        completion(photo)
+                        
+                    case .rectangle(let ratio):
+                        let cropVC = YPCropVC(image: photo.image, ratio: ratio, oval: false)
                         cropVC.didFinishCropping = { croppedImage in
                             photo.modifiedImage = croppedImage
                             completion(photo)
                         }
                         self?.pushViewController(cropVC, animated: true)
-                    } else {
-                        completion(photo)
+                        
+                    case .circle:
+                        let cropVC = YPCropVC(image: photo.image, ratio: 1.0, oval: true)
+                        cropVC.didFinishCropping = { croppedImage in
+                            photo.modifiedImage = croppedImage
+                            completion(photo)
+                        }
+                        self?.pushViewController(cropVC, animated: true)
                     }
                 }
                 
@@ -123,8 +133,11 @@ override open func viewDidLoad() {
                         }
                     }
                     self?.pushViewController(filterVC, animated: false)
-                } else {
+                } else if photo.fromCamera {
                     showCropVC(photo: photo, completion: completion)
+                }
+                else {
+                    completion(photo)
                 }
             case .video(let video):
                 if YPConfig.showsVideoTrimmer {
@@ -157,6 +170,23 @@ override open func viewDidLoad() {
         loadingView.fillContainer()
         loadingView.alpha = 0
     }
+    
+//    func crop(_ image: UIImage) -> UIImage {
+//        let xCrop = v.cropArea.frame.minX - v.imageView.frame.minX
+//        let yCrop = v.cropArea.frame.minY - v.imageView.frame.minY
+//        let widthCrop = v.cropArea.frame.width
+//        let heightCrop = v.cropArea.frame.height
+//        let scaleRatio = image.size.width / v.imageView.frame.width
+//        let scaledCropRect = CGRect(x: xCrop * scaleRatio,
+//                                    y: yCrop * scaleRatio,
+//                                    width: widthCrop * scaleRatio,
+//                                    height: heightCrop * scaleRatio)
+//        if let cgImage = image.toCIImage()?.toCGImage(),
+//            let imageRef = cgImage.cropping(to: scaledCropRect) {
+//            let croppedImage = UIImage(cgImage: imageRef)
+//            didFinishCropping?(croppedImage)
+//        }
+//    }
 }
 
 extension YPImagePicker: ImagePickerDelegate {

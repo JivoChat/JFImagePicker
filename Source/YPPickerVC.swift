@@ -42,6 +42,17 @@ open class YPPickerVC: YPBottomPager, YPBottomPagerDelegate {
     var mode = Mode.camera
     
     var capturedImage: UIImage?
+    let cropType: YPCropType
+    
+    init(cropType: YPCropType) {
+        self.cropType = cropType
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required public init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     open override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,6 +69,7 @@ open class YPPickerVC: YPBottomPager, YPBottomPagerDelegate {
         // Library
         if YPConfig.screens.contains(.library) {
             libraryVC = YPLibraryVC()
+            libraryVC?.cropType = cropType
             libraryVC?.delegate = self
         }
         

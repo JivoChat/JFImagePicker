@@ -25,7 +25,29 @@ class YPAssetViewContainer: UIView {
     private let spinner = UIActivityIndicatorView(style: .white)
     private var shouldCropToSquare = true
     private var isMultipleSelection = false
+    private var overlay: UIView?
 
+    public var cropType = YPCropType.none {
+        didSet {
+            overlay?.removeFromSuperview()
+            
+            switch cropType {
+            case .none:
+                break
+                
+            case .rectangle:
+                break
+                
+            case .circle:
+                if let anotherView = zoomableView {
+                    let overlay = YPCircleOverlay()
+                    overlay.install(onto: self)
+                    self.overlay = overlay
+                }
+            }
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -37,6 +59,7 @@ class YPAssetViewContainer: UIView {
             if let cv = sv as? YPAssetZoomableView {
                 zoomableView = cv
                 zoomableView?.myDelegate = self
+                break
             }
         }
         

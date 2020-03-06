@@ -17,12 +17,17 @@ class YPCropView: UIView {
     let bottomCurtain = UIView()
     let toolbar = UIToolbar()
 
-    convenience init(image: UIImage, ratio: Double) {
+    convenience init(image: UIImage, ratio: Double, oval: Bool) {
         self.init(frame: .zero)
         setupViewHierarchy()
-        setupLayout(with: image, ratio: ratio)
+        setupLayout(with: image, ratio: ratio, oval: oval)
         applyStyle()
         imageView.image = image
+        
+        if oval {
+            let overlay = YPCircleOverlay()
+            overlay.install(onto: cropArea)
+        }
     }
     
     private func setupViewHierarchy() {
@@ -35,7 +40,7 @@ class YPCropView: UIView {
         )
     }
     
-    private func setupLayout(with image: UIImage, ratio: Double) {
+    private func setupLayout(with image: UIImage, ratio: Double, oval: Bool) {
         layout(
             0,
             |topCurtain|,

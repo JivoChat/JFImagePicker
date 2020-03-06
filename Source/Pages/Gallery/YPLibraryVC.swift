@@ -33,6 +33,13 @@ public class YPLibraryVC: UIViewController, YPPermissionCheckable {
         fatalError("init(coder:) has not been implemented")
     }
     
+    var cropType = YPCropType.none {
+        didSet {
+            guard isViewLoaded else { return }
+            v.cropType = cropType
+        }
+    }
+    
     func setAlbum(_ album: YPAlbum) {
         title = album.title
         mediaManager.collection = album.collection
@@ -68,6 +75,7 @@ public class YPLibraryVC: UIViewController, YPPermissionCheckable {
     
     public override func loadView() {
         v = YPLibraryView.xibView()
+        v.cropType = cropType
         view = v
     }
     

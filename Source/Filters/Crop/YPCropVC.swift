@@ -11,6 +11,7 @@ import UIKit
 public enum YPCropType {
     case none
     case rectangle(ratio: Double)
+    case circle
 }
 
 class YPCropVC: UIViewController {
@@ -26,8 +27,8 @@ class YPCropVC: UIViewController {
     private let v: YPCropView
     override func loadView() { view = v }
     
-    required init(image: UIImage, ratio: Double) {
-        v = YPCropView(image: image, ratio: ratio)
+    required init(image: UIImage, ratio: Double, oval: Bool) {
+        v = YPCropView(image: image, ratio: ratio, oval: oval)
         originalImage = image
         super.init(nibName: nil, bundle: nil)
         self.title = YPConfig.wordings.crop

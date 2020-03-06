@@ -24,6 +24,11 @@ final class YPLibraryView: UIView {
     let progressView = UIProgressView()
     let line = UIView()
     
+    var cropType: YPCropType {
+        get { return assetViewContainer.cropType }
+        set { assetViewContainer.cropType = newValue }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
