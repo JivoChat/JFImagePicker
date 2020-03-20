@@ -44,6 +44,7 @@ final class YPBottomPagerView: UIView {
     private func setupScrollView() {
         scrollView.clipsToBounds = false
         scrollView.isPagingEnabled = true
+        scrollView.isScrollEnabled = false
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.scrollsToTop = false
         scrollView.bounces = false
