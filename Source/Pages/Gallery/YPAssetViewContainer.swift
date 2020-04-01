@@ -99,12 +99,13 @@ class YPAssetViewContainer: UIView {
         }
         
         // Multiple selection button
+        multipleSelectionButton.isHidden = true
+        
         sv(multipleSelectionButton)
         multipleSelectionButton.size(42)
         multipleSelectionButton-15-|
         multipleSelectionButton.setImage(YPConfig.icons.multipleSelectionOffIcon, for: .normal)
         multipleSelectionButton.Bottom == zoomableView!.Bottom - 15
-        
     }
     
     // MARK: - Square button
