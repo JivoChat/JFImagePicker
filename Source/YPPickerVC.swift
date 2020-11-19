@@ -371,6 +371,8 @@ extension YPPickerVC: YPLibraryViewDelegate {
     }
     
     public func noPhotosForOptions() {
+        libraryVC?.v.hideLoader()
+        
 //        self.dismiss(animated: true) {
 //            self.imagePickerDelegate?.noPhotos()
 //        }
