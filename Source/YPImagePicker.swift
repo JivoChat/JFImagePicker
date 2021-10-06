@@ -53,7 +53,7 @@ open class YPImagePicker: UINavigationController {
         fatalError("init(coder:) has not been implemented")
     }
     
-override open func viewDidLoad() {
+    override open func viewDidLoad() {
         super.viewDidLoad()
         picker.didClose = { [weak self] in
             self?._didFinishPicking?([], true)
@@ -155,7 +155,7 @@ override open func viewDidLoad() {
         
         // If user has not customized the Nav Bar tintColor, then use black.
         if UINavigationBar.appearance().tintColor == nil {
-            UINavigationBar.appearance().tintColor  = .black
+            UINavigationBar.appearance(whenContainedInInstancesOf: [YPImagePicker.self]).tintColor = YPConfig.colors.secondaryTintColor
         }
     }
     
