@@ -409,13 +409,13 @@ public class YPLibraryVC: UIViewController, YPPermissionCheckable {
                               multipleItemsCallback: @escaping (_ items: [YPMediaItem]) -> Void) {
         DispatchQueue.global(qos: .userInitiated).async {
             
-            let selectedAssets: [(asset: PHAsset, cropRect: CGRect?)] = self.selection.map {
-                guard let asset = PHAsset.fetchAssets(withLocalIdentifiers: [$0.assetIdentifier], options: PHFetchOptions()).firstObject else { fatalError() }
+            let selectedAssets: [(asset: PHAsset, cropRect: CGRect?)] = self.selection.compactMap {
+                guard let asset = PHAsset.fetchAssets(withLocalIdentifiers: [$0.assetIdentifier], options: PHFetchOptions()).firstObject else { return nil }
                 return (asset, $0.cropRect)
             }
             
             // Multiple selection
-            if self.multipleSelectionEnabled && self.selection.count > 1 {
+            if self.multipleSelectionEnabled && selectedAssets.count > 1 {
                 
                 // Check video length
                 for asset in selectedAssets {
