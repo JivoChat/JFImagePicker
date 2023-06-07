@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'JFImagePicker'
-  s.version          = "4.0.4"
+  s.version          = "4.0.5"
   s.summary          = "Instagram-like image picker & filters for iOS"
   s.homepage         = "https://github.com/JivoChat/JFImagePicker.git"
   s.license          = { :type => "MIT", :file => "LICENSE" }
